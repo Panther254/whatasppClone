@@ -1,7 +1,7 @@
 .App{
   display: flex;
   align-items: center;
-  /*place-items: centre;*/
+  place-items: centre;
   justify-content: center;
   background-color: #dadbd3;
   height: 100vh;
@@ -12,6 +12,8 @@
   height: 90vh;
   width: 90vw;
   background-color: #ededed;
-  margin-top: -50px;
+  /*margin-top: 50px;*/
+  /*,margin: 5vh 5vw 5vh 5vw;*/
+  /*margin-left: auto;*/
   box-shadow: -1px 4px 20px -6px rgba(0, 0, 0, 0.2);
 }
