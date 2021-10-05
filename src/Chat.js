@@ -7,16 +7,31 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import MicIcon from '@mui/icons-material/Mic';
+import { useParams } from 'react-router';
+import db, { getRoom } from './firebase';
 
 
 
 const Chat = () => {
 	const [input, setInput] = useState("");
 	const [seed, setSeed] = useState("");
+	const { roomId } = useParams();
+	const [roomName, setRoomName] = useState("");
+
+	useEffect(() => {
+		if (roomId) {
+			const response = getRoom(db,roomId)
+			response.then( data =>(
+				// console.log("data is here",data)
+				setRoomName(data.name)
+			)).catch( error => alert("Error Fetching Room. Try Again"))
+			// setRoomName(data)
+		}
+	}, [roomId])
 	
 	useEffect(() => {
 	 	setSeed(Math.floor(Math.random()*5000));
-	 }, []); 
+	 }, [roomId]); 
 
 	const sendMessage = (e) => {
 		e.preventDefault();
@@ -36,7 +51,7 @@ const Chat = () => {
 				</IconButton>
 				
 				<div className="chat__headerInfo">
-					<h3>Room Name</h3>
+					<h3>{roomName}</h3>
 					<p>Last Seen at...</p>
 				</div>
 				

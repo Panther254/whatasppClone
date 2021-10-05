@@ -15,9 +15,19 @@ const Sidebar = () => {
 	const [rooms, setRooms] = useState([]);
 
 	useEffect(() => {
-		const roomList = getRooms(db)
-		setRooms(roomList)
-		console.log(rooms)
+		const roomsSnapshot = getRooms(db)
+		roomsSnapshot
+		.then(snapshot=>{ 
+			const roomList = snapshot.docs.map(doc=>({ id: doc.id, name: doc.data()}))
+			roomList.forEach(element => {
+				const id  = element.id
+				const name = element.name.name
+				setRooms( rooms=>[...rooms,{ id: id, name: name },])
+			});
+		})
+		.catch(error=>(
+			console.log("Error!!", error)
+		))
 	}, [])
 
 	return (
@@ -50,10 +60,7 @@ const Sidebar = () => {
 			
 			<div className="sidebar__chats">
 				<SidebarChat addNewChat />
-				{rooms.map(room =>(
-					<SidebarChat key={room.id} id={room.id} name={room.name} />)
-				)}
-				
+				{rooms.map(room=>(<SidebarChat key={room.id} id={room.id} name={room.name} />))}
 			</div>
 		</div>
 	)
