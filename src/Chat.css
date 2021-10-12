@@ -47,6 +47,7 @@
 	border-radius: 10px;
 	background-color: white;
 	margin-bottom: 30px;
+	margin-top: 30px;
 
 }
 
@@ -93,5 +94,9 @@
 }
 
 .chat__footer > form > button {
+	display: none;
+}
+
+.hidden__div{
 	display: none;
 }

@@ -1,10 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc, doc, getDoc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, doc, getDoc, query, orderBy } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAqRdl2neETlj6niyDcCVHA6CFzULyFFv0",
+  apiKey: "fgfd4$tyrrtrtr6576t7uiggAfdfdZGREsrfA78YHJHXyt",
   authDomain: "whatsapp-clone-da6ae.firebaseapp.com",
   projectId: "whatsapp-clone-da6ae",
   storageBucket: "whatsapp-clone-da6ae.appspot.com",
@@ -32,7 +32,7 @@ const getRoom = async(db, roomId)=>{
   if (docSnap.exists()) {
     return docSnap.data()
   } else {
-    console.log("No such document!");
+    alert("No such document!");
   }
 }
 
@@ -42,10 +42,20 @@ const addRoom = async(db, name)=>{
     name: name,
   });
   return docRef
+};
+
+
+const addMessage = async(db, roomId, message)=>{
+  const docRef = await addDoc(collection(db, "rooms", roomId, "messages"), message)
+  return docRef
+};
+
+const getMessages = async(db, roomId) =>  {
+  const collectionRef =  collection(db, "rooms", roomId, "messages")
+  const queryRef = query(collectionRef, orderBy("timestamp", "asc"))
+  const messageSnapshot = await getDocs(queryRef)
+  return messageSnapshot
 }
 
-
-
-
-export { auth, provider, getRooms, addRoom, getRoom };
+export { auth, provider, getRooms, addRoom, getRoom, addMessage, getMessages };
 export default db;

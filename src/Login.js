@@ -2,15 +2,19 @@ import { Button } from '@mui/material';
 import React from 'react';
 import './Login.css';
 import { auth, provider } from "./firebase.js"
-import { signInWithPopup, GoogleAuthProvider } from '@firebase/auth';
+import { signInWithPopup } from '@firebase/auth';
+import { useStateValue } from './DataStore';
+import { actionTypes } from './reducer';
 
 const Login = () => {
+    const [,dispatch] = useStateValue();
     const signIn = () => {
-        signInWithPopup(auth, provider).then(results=>{
-            const user = results.user.displayName;
-            const credential = GoogleAuthProvider.credentialFromResult(results);
-            const token = credential.accessToken;
-            console.log("user>>",user, "/ntoken>>",token);
+        signInWithPopup(auth, provider).then((results)=>{
+            const name = results.user.displayName
+            dispatch({
+                type: actionTypes.SET_USER,
+                user: name,
+            });
         }).catch(error=>{
             const errorCode = error.code;
             const errorMessage = error.message;
